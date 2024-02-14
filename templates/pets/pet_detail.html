@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% block title %}
+mycart
+{% endblock %}
+{% block content %}
+
+    <h1 align="center">Pet INformation</h1>
+    <img src="{{qs.image.url}}" height="200px" width="200px" alt="petimg">
+    <h2>Name :</h2> <h4>{{qs.name}}</h4>
+    <h2>Breed:</h2> <h4>{{qs.breed}}</h4>
+    <h2>Age :</h2> <h4>{{qs.age}}</h4>
+    <h2>height:</h2> <h4>{{qs.height}}</h4>
+    <h2>price :</h2> <h4>{{qs.price}}</h4>
+   
+    {% if pet_exists_incart %}
+    <a href="{% url 'cart:mycart'%}" class="btn btn-success" >Go to Cart</a>
+    {% else %}
+    <a href="{% url 'cart:addcart' pk=qs.pk %}" class="btn btn-danger" >Add to Cart</a>
+    {% endif %}
+    {% endblock %}

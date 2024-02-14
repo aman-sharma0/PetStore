@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary container">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Pet Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'homepage' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Cart</a>
+          </li>
+          {% if perms.pets.add_pet %}
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'petsapp:addpet' %}">Add pet</a>
+          </li>
+          {% endif %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Category
+            </a>
+            <ul class="dropdown-menu">
+      
+              <li><a class="dropdown-item" href="#">Cat List</a></li>
+              <li><a class="dropdown-item" href="{% url 'petsapp:doglist' %}">Dog List </a></li>
+             
+            </ul>
+          </li>
+          <li class="nav-item">
+            
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             Hi ,{{request.user}}!
+            </a>
+            <ul class="dropdown-menu">
+              {% if request.user.is_authenticated %}
+              <li><a class="dropdown-item" href="{% url 'logout' %}">LogOut</a></li>
+              <li><hr class="dropdown-divider"></li>
+              {% else %}
+              <li><a class="dropdown-item" href="{% url 'login' %}">Login </a></li>
+              <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up </a></li>
+              {% endif %}
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>
+        </ul>
+        {% if perms.cart.view_cart %}
+        <a class="nav-link m-1" href="{% url 'cart:mycart' %}"><i class="fa-solid fa-cart-shopping"></i></a>
+        {% endif  %}
+        <form class="d-flex" role="search" action="{% url 'petsapp:searchpet' %}" method="post">
+          {% csrf_token %}
+          <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+   
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ATW5_JqD2oOIAPFjWPfLfrKR8AKE4HMLgV9rtDb3-gH9nXlIJUnGwh6ijSPlWWWhri0PKZkwo13MTUdm&currency=USD"></script>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+    <link href="{% static 'css/ordercompleted.css' %}" rel="stylesheet" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .card:hover{
+            box-shadow: 2px grey;
+        }
+    </style>
+</head>
+<body>
+    {% include 'base/header.html' %}
+    <div class="container mt-4">
+        {% block content %}
+        
+        {% endblock %}
+        <a aria-label="Chat on WhatsApp" href="https://wa.me/8349969604?text=I'm%20inquiring%20about%20the%20pet%20listing"><i class="fa-brands fa-whatsapp fa-lg"></i>
+    </div>  
+    
+        <a />
+       {% include 'base/footer.html' %}
+</body>
+</html>

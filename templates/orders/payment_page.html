@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+{% block title%}
+ sign up
+{% endblock %}
+{% block content%}
+ <div class="row">
+    
+    <aside class="col-lg-8">
+      <div class="card w-75">
+        <div class="card-body">
+          <h5 class="card-title">Billing <Address></Address></h5>
+          <h4> {{order_obj.first_name}}</h4>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Button</a>
+        </div>
+      </div>
+      
+      <div class="card w-50">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Button</a>
+        </div>
+      </div>
+     
+    </aside>
+    <aside class="col-lg-4">
+ 
+      <form method="post" id="form">
+         {% csrf_token %}
+      <div class="card mb-2" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Product Price : ${{totalamount}} </li>
+          <li class="list-group-item">Addotional services : $0</li>
+          <li class="list-group-item">Total Price: ${{totalamount}}</li>
+        </ul>
+        
+      </div>
+      <div style="width: 18rem;" id="paypal-button-container"></div>
+    </form>
+    </aside>
+    
+
+ </div>
+ <script> 
+  
+    function initPayPalButton() {
+              
+          
+      form=document.getElementById('form')
+      csrftoken=form.getElementsByTagName("input")[0].value
+      
+     
+
+      ordernumber="{{order_number}}"
+      var url="{% url 'orders:payments' %}"
+      paypal.Buttons({
+        style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'vertical',
+          label: 'paypal',
+          
+        },
+
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{"amount":{"currency_code":"USD","value":"{{totalamount}}"}}]
+          });
+        },
+
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(orderData) {
+          // Full available details
+
+          //alert('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            sendData()
+            
+            function sendData()
+              {
+                alert(csrftoken)
+               
+              fetch(url,
+              {
+                method:'POST',
+                headers:{
+                  "Content-type":"application/json",
+                    "X-CSRFToken": csrftoken
+},
+                body:JSON.stringify(
+                  {
+                    
+                    orderId:"{{order_number}}",
+                    transactionId:orderData.id,
+                    status:orderData.status,
+                    total:"{{totalamount}}"
+                }),
+              
+              }).then((response) =>response.json())
+              
+              .then((orderData) => window.location.href="{% url 'orders:orderplaced' %}")
+              
+              ;
+              }  
+            
+            // Show a success message within this page, e.g.
+            //const element = document.getElementById('paypal-button-container');
+            //element.innerHTML = '';
+            //element.innerHTML = '<h3>Thank you for your payment!</h3>';
+
+            // Or go to another URL:  actions.redirect('thank_you.html');
+            
+          });
+        },
+
+        onError: function(err) {
+          console.log(err);
+        }
+      }).render('#paypal-button-container');
+    }
+    initPayPalButton()
+</script>
+{% endblock %}

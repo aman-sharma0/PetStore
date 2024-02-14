@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% block title %}
+mycart
+{% endblock %}
+{% block content %}
+
+{% if flag %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Pet</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total price</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_item %}
+      <tr>
+        <th scope="row"><img src="{{item.pet.image.url}}" height="150px" width="150px">
+            <br>
+            <b>{{item.pet.name}}</b>
+        </th>
+        <td>{{item.pet.price}}</td>
+        <td>
+            <input type="number" cart-id="{{item.id}}" class="qnt" value="{{item.quantity}}" min="1"></td>
+        <td ><input type="number" id="totalprice{{item.id}}" value="{{item.total_price}}" disabled></td>
+        <td><a href="{% url 'cart:deletecart' pk=item.id %}">
+          <i class="fa-sharp fa-solid fa-trash"></i>
+        </a></td>
+      </tr>
+      {% endfor %}
+ 
+     
+    </tbody>
+  </table>
+  <form  action="{% url 'orders:placeorder' %}">
+    {% csrf_token %}
+  <label class="mb-2">Total :  </label>
+  <input type="number" name="totalamount" value="{{totalamount}}" id="totalamount" >
+  <input type="submit" value="Place Order">
+  </form>
+
+{% else %}
+    <h1>Empty</h1>
+{% endif %}
+{% endblock %}
+

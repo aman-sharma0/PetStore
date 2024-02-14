@@ -1,0 +1,20 @@
+<style>
+  .card:hover{
+      box-shadow: 2px 2px 5px 3px grey;
+  }
+</style>
+              <div class="row">
+                {% for pet in pet_list %}
+                <div class="card m-2" style="width: 200px;">
+                 <a href="{% url 'pets:petdetail' slug=pet.slug %}"> 
+                  <img class="card-img-top" src="{{pet.image.url}}" alt="Card image cap" height="200px" width="200px">
+                 </a> 
+                 <div class="card-body">
+                    <h5 class="card-title">{{pet.name}}-{{pet.breed}}</h5>
+                    <h5 class="card-title">Price : {{pet.price}}</h5>
+                    <p class="card-text">{{pet.description}}</p>
+
+                  </div>
+                </div>
+                {% endfor  %}
+              </div>
